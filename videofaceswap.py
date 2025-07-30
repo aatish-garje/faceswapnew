@@ -18,12 +18,13 @@ def load_models():
 
     os.makedirs("models", exist_ok=True)
     if not os.path.exists(model_path):
-        with st.spinner("🔽 Downloading FaceSwap model..."):
-            r = requests.get(model_url, stream=True)
-            with open(model_path, "wb") as f:
-                for chunk in r.iter_content(chunk_size=8192):
-                    f.write(chunk)
-            st.success("✅ Model downloaded!")
+        os.remove(model_path)
+    with st.spinner("🔽 Downloading FaceSwap model..."):
+        r = requests.get(model_url, stream=True)
+        with open(model_path, "wb") as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                f.write(chunk)
+        st.success("✅ Model downloaded!")
 
     face_analyzer = FaceAnalysis(name='buffalo_l', providers=["CPUExecutionProvider"])
     face_analyzer.prepare(ctx_id=0, det_size=(640, 640))
